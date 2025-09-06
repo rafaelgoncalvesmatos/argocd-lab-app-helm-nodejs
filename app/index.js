@@ -5,7 +5,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const app = express();
 
-let word = "Bolsonaro";
+let word = "CCP";
 
 const noticias = [
   { name: 'Veja', base: 'https://veja.abril.com.br/', address: 'https://veja.abril.com.br/politica/' },
