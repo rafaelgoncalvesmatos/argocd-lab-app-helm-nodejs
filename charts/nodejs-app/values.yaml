@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: <DOCKERHUB_USER>/argocd-nodejs
+  repository: rafaelgoncalvesmatos/argocd-nodejs
   tag: latest
   pullPolicy: IfNotPresent
 
