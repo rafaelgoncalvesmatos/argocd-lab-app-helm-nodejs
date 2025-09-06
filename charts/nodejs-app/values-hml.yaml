@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: rafaelgoncalvesmatos/argocd-nodejs
   tag: hml-stable
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: NodePort
