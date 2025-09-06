@@ -1,4 +1,4 @@
-relicaCount: 1
+replicaCount: 1
 service:
   type: NodePort
   port: 80
