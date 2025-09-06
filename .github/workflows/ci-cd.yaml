@@ -1,9 +1,15 @@
 name: CI/CD NodeJS
 
+# on:
+#   push:
+#     branches: 
+#       - main
 on:
   push:
-    branches: 
-      - main
+    branches:
+      - dev
+      - hml
+      - prd
 
 jobs:
   build-and-push:
@@ -22,11 +28,44 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
+      # - name: Build and push
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: ./app
+      #     file: ./app/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:latest
+      #     platforms: linux/amd64,linux/arm64
+
+      - name: Set image tags
+        id: vars
+        run: |
+          BRANCH_NAME=${GITHUB_REF##*/}
+          SHA_TAG=${GITHUB_SHA::7}
+
+          case "$BRANCH_NAME" in
+            dev)
+              echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:dev-${SHA_TAG},${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:dev-stable" >> $GITHUB_OUTPUT
+              ;;
+            hml)
+              echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:hml-${SHA_TAG},${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:hml-stable" >> $GITHUB_OUTPUT
+              ;;
+            prd)
+              echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:prd-${SHA_TAG},${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:prd-stable,${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:latest" >> $GITHUB_OUTPUT
+              ;;
+            main)
+              echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:main-${SHA_TAG},${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:latest" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:${SHA_TAG}" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: ./app
           file: ./app/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/argocd-nodejs:latest
           platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.vars.outputs.TAGS }}      

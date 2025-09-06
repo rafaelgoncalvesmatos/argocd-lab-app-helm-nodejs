@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: rafaelgoncalvesmatos/argocd-nodejs
-  tag: latest
+  tag: dev
   pullPolicy: IfNotPresent
 
 service:
