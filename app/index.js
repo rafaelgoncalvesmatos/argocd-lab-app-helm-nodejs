@@ -5,8 +5,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const app = express();
 
-let word = "CCP";
-
 const noticias = [
   { name: 'Veja', base: 'https://veja.abril.com.br/', address: 'https://veja.abril.com.br/politica/' },
   { name: 'Google', base: 'https://news.google.com/', address: 'https://news.google.com/' },
@@ -16,15 +14,14 @@ const noticias = [
   { name: 'Folha', base: 'https://www.folha.uol.com.br/', address: 'https://www1.folha.uol.com.br/poder/' }
 ];
 
-let articles = [];
-
 app.get('/', (req, res) => {
   res.json(`Welcome ${USER} to my Climate Change News API`);
 });
 
-// Endpoint que busca as notícias em tempo real
-app.get('/v1/news', async (req, res) => {
-  articles = [`Palavra chave usada: ${word}`];
+// Endpoint dinâmico para buscar notícias pela palavra
+app.get('/v1/news/:word', async (req, res) => {
+  const word = req.params.word; // pega da URL
+  const articles = [`Palavra chave usada: ${word}`];
 
   for (const site of noticias) {
     try {
@@ -44,7 +41,7 @@ app.get('/v1/news', async (req, res) => {
         });
       });
     } catch (error) {
-      console.error(`Erro ao buscar ${site.name}:`, error.message);
+      console.error(`❌ Erro ao buscar ${site.name}:`, error.message);
     }
   }
 
