@@ -1,4 +1,10 @@
 replicaCount: 2
+
+image:
+  repository: rafaelgoncalvesmatos/argocd-nodejs
+  tag: latest
+  pullPolicy: IfNotPresent
+
 service:
   type: NodePort
   port: 80
