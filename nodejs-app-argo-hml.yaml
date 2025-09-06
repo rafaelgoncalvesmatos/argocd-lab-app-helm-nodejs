@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/rafaelgoncalvesmatos/argocd-lab-app-helm-nodejs.git'
-    targetRevision: main
+    targetRevision: hml
     path: charts/nodejs-app
     helm:
       valueFiles:
