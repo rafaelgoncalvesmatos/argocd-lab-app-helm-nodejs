@@ -1,7 +1,4 @@
 replicaCount: 4
-service:
-  type: NodePort
-  port: 80
 
 image:
   repository: rafaelgoncalvesmatos/argocd-nodejs
