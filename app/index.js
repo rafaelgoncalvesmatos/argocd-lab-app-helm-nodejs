@@ -15,7 +15,7 @@ const noticias = [
 ];
 
 app.get('/', (req, res) => {
-  res.json(`Welcome ${USER} to my Climate Change News API`);
+  res.json(`Welcome ${USER} to my Climate Change News API, version 1.0.0`);
 });
 
 // Endpoint dinâmico para buscar notícias pela palavra
