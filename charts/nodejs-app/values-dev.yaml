@@ -1,11 +1,11 @@
-replicaCount: 1
+replicaCount: 4
 
 image:
   repository: rafaelgoncalvesmatos/argocd-nodejs
   tag: dev-stable
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
-  type: ClusterIP
-  port: 80
+  type: NodePort
+  port: 3000
   targetPort: 3000
